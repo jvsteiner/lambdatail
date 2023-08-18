@@ -16,9 +16,9 @@ In the future, it could be improved so that it can be used as a long-running VPN
 2. Install Tailscale on your local machine and create a Tailscale account.
 3. Have Docker installed and running.
 
-### Create a Tailscale ephemeral auth key
+### Configure your Tailscale network
 
-1. You should modify your Tailscale Access control config JSON by adding the following:
+1. Modify your Tailscale Access control config JSON by adding the following:
 
 ```json
 	"tagOwners": {
@@ -29,8 +29,8 @@ In the future, it could be improved so that it can be used as a long-running VPN
 	},
 ```
 
-2. Follow the directions here to create an ephemeral auth key: https://tailscale.com/kb/1085/auth-keys/ You should create a key that is both ephemeral, and reuseable, and you should assign the tag `tag:exit` to it.
-3. Create a file called `config.json` which has the same contents as the `config.example.json` file, but with your ephemeral auth key in it.
+2. Follow the directions here to create an ephemeral auth key: https://tailscale.com/kb/1085/auth-keys/ You should create a key that is both ephemeral, and reuseable, and you should assign the tag `tag:exit` to it. I suggest a nice long one - say 90 days. You will have to get a new one manually, when it expires.
+3. In the project root, create a file called `config.json` which has the same contents as the `config.example.json` file, but with your ephemeral auth key in it from step 2.
 4. Make any modifications that you would like to the `serverless.yml` file. For example, you may want to change the region that the Lambda function is deployed to.
 
 ```
