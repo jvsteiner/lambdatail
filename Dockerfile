@@ -1,7 +1,7 @@
 FROM public.ecr.aws/lambda/provided:al2 as builder
 WORKDIR /app
 COPY . ./
-# This is where one could build the application code as well.
+# Right now this first stage isn't really used but it could be.
 
 FROM public.ecr.aws/lambda/nodejs:12
 # Copy binary to production image.

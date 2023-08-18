@@ -2,14 +2,11 @@
 
 mkdir -p /tmp/tailscale
 /var/runtime/tailscaled --tun=userspace-networking --socks5-server=localhost:1055 &
-/var/runtime/tailscale up --authkey=${TAILSCALE_AUTHKEY} --advertise-tags=tag:exit --hostname=lambdatail --advertise-exit-node --accept-dns=true
+# /var/runtime/tailscale up --authkey=${TAILSCALE_AUTHKEY} --advertise-tags=tag:exit --hostname=lambdatail --advertise-exit-node --accept-dns=true
 echo Tailscale started
 
-# echo "AWS_LAMBDA_RUNTIME_API: ${AWS_LAMBDA_RUNTIME_API}"
-
-# exec /lambda-entrypoint.sh app.handler
-# ALL_PROXY=socks5://localhost:1055/ /var/runtime/my-app
-# sleep 120
+# Everything below is from the node runtime file from the standard image:
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 
 if [ -z "$NODE_PATH" ];
 then

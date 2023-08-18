@@ -49,6 +49,12 @@ The time parameter configures, in seconds, how long the lambda function will exe
 
 You can change the amount of time the service is up by changing the `time` parameter.
 
+## Using the Exit Node
+
+Once you invoke the function, the node, called `lambdatail` should appear in your list of Tailscale nodes, and be available as an exit node. You can select it like any other node, and use it as an exit node, or anything else you want to use it for.
+
+## Bonus fun
+
 You can also pass a 'cmd' parameter to the function to run a command inside the container. For example, to run `ls -la` inside the lambda function while it's running, you can run:
 
 ```
@@ -58,5 +64,13 @@ sls invoke --function start --data '{"time":1,"cmd":"ls -la"}'
 The results are returned to you in the console, base64 encoded in a JSON object, under the "body" property. You can decode them any way you like, for example if you have `jq` installed, you can run:
 
 ```
-sls invoke --function start --data '{"time":1,"cmd":"ls -la"}' | jq -r .body | base64 -D
+sls invoke --function start --data '{"time":1,"cmd":"/var/runtime/tailscale status"}' | jq -r .body | base64 -D
 ```
+
+Any commands you send are executed after the configured `time` parameter, ie. they are executed at the very end, before the lambda function returns, right before the VPN node drops. You could use this to cleanup the network if you like, or separately just to explore what goes on inside of a Lambda VM.
+
+## TODO
+
+1. At the moment, the nodes don't cleanup very well after they drop. If you invoke the function a few times, you will get several `lambdatail` nodes showing up there in the list. It might be better to find a way to remove them gracefully from the network list, so that doesn't happen.
+2. 15 minutes of continuous VPN service is useful and fun, but there are obviously a lot more use-cases for VPN's with continuous, on-demand access. One could create a local proxy that would run continuously, and repeatedly trigger lambda invocations. It could also run a proxy, and reconfigure Tailscale to rotate between them. This would provide constantly changing IP addresses for the user.
+3. Currently, only one AWS region is configurable. It would be cool to be able to choose the region at invocation. Probably you'd need a command line utility for this, and then one could implement #2 above at the same time.
