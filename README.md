@@ -1,4 +1,4 @@
-# Serverless Tailscale VPN
+# Serverless Tailscale Exit Node
 
 This is a Serverless Framework project that deploys a Lambda function that connects to a Tailscale VPN. We presume you are already familiar with Tailscale and the serverless framework on AWS Lambda.
 
