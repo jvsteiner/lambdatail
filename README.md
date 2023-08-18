@@ -18,9 +18,20 @@ In the future, it could be improved so that it can be used as a long-running VPN
 
 ### Create a Tailscale ephemeral auth key
 
-1. Follow the directions here to create an ephemeral auth key: https://tailscale.com/kb/1085/auth-keys/
+1. Follow the directions here to create an ephemeral auth key: https://tailscale.com/kb/1085/auth-keys/ You should create a key that is both ephemeral, and reuseable.
 2. Create a file called `config.json` which has the same contents as the `config.example.json` file, but with your ephemeral auth key in it.
-3. Make any modifications that you would like to the `serverless.yml` file. For example, you may want to change the region that the Lambda function is deployed to.
+3. You should also modify your Tailscale Access control config JSON by adding the following:
+
+```json
+	"tagOwners": {
+		"tag:exit": ["autogroup:admin"],
+	},
+        "autoApprovers": {
+		"exitNode": ["tag:exit"],
+	},
+```
+
+4. Make any modifications that you would like to the `serverless.yml` file. For example, you may want to change the region that the Lambda function is deployed to.
 
 ```
 sls deploy
@@ -34,7 +45,7 @@ After successful deployment, you can test your service remotely by using the fol
 sls invoke --function start --data '{"time":1}'
 ```
 
-This will bring up the service for one second - not too useful, but it's a start.
+The time parameter configures, in seconds, how long the lambda function will execute form and therefore, how long the Tailscale node will work. The above invocation will bring up the service for one second - not too useful, but it's a start. You can pass in any number, but Lambda is limited to 15 minutes, or 900 seconds.
 
 You can change the amount of time the service is up by changing the `time` parameter.
 
@@ -44,4 +55,8 @@ You can also pass a 'cmd' parameter to the function to run a command inside the 
 sls invoke --function start --data '{"time":1,"cmd":"ls -la"}'
 ```
 
-The results are returned to you in the console, base 64 encoded. You can decode them any way you like.
+The results are returned to you in the console, base64 encoded in a JSON object, under the "body" property. You can decode them any way you like, for example if you have `jq` installed, you can run:
+
+```
+sls invoke --function start --data '{"time":1,"cmd":"ls -la"}' | jq -r .body | base64 -D
+```
