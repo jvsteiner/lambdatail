@@ -71,6 +71,5 @@ Any commands you send are executed after the configured `time` parameter, ie. th
 
 ## TODO
 
-1. At the moment, the nodes don't cleanup very well after they drop. If you invoke the function a few times, you will get several `lambdatail` nodes showing up there in the list. It might be better to find a way to remove them gracefully from the network list, so that doesn't happen.
-2. 15 minutes of continuous VPN service is useful and fun, but there are obviously a lot more use-cases for VPN's with continuous, on-demand access. One could create a local proxy that would run continuously, and repeatedly trigger lambda invocations. It could also run a proxy, and reconfigure Tailscale to rotate between them. This would provide constantly changing IP addresses for the user.
-3. Currently, only one AWS region is configurable. It would be cool to be able to choose the region at invocation. Probably you'd need a command line utility for this, and then one could implement #2 above at the same time.
+1. 15 minutes of continuous VPN service is useful and fun, but there are obviously a lot more use-cases for VPN's with continuous, on-demand access. One could create a local proxy that would run continuously, and repeatedly trigger lambda invocations. It could also run a proxy, and reconfigure Tailscale to rotate between them. This would provide constantly changing IP addresses for the user.
+2. Currently, only one AWS region is configurable. It would be cool to be able to choose the region at invocation. Probably you'd need a command line utility for this, and then one could implement #2 above at the same time.
