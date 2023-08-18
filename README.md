@@ -18,9 +18,7 @@ In the future, it could be improved so that it can be used as a long-running VPN
 
 ### Create a Tailscale ephemeral auth key
 
-1. Follow the directions here to create an ephemeral auth key: https://tailscale.com/kb/1085/auth-keys/ You should create a key that is both ephemeral, and reuseable.
-2. Create a file called `config.json` which has the same contents as the `config.example.json` file, but with your ephemeral auth key in it.
-3. You should also modify your Tailscale Access control config JSON by adding the following:
+1. You should modify your Tailscale Access control config JSON by adding the following:
 
 ```json
 	"tagOwners": {
@@ -31,6 +29,8 @@ In the future, it could be improved so that it can be used as a long-running VPN
 	},
 ```
 
+2. Follow the directions here to create an ephemeral auth key: https://tailscale.com/kb/1085/auth-keys/ You should create a key that is both ephemeral, and reuseable, and you should assign the tag `tag:exit` to it.
+3. Create a file called `config.json` which has the same contents as the `config.example.json` file, but with your ephemeral auth key in it.
 4. Make any modifications that you would like to the `serverless.yml` file. For example, you may want to change the region that the Lambda function is deployed to.
 
 ```
