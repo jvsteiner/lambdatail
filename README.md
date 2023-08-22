@@ -4,7 +4,7 @@ This is a Serverless Framework project that deploys a Lambda function that conne
 
 This project installs a Lambda function that connects to your Tailscale VPN and acts as an ephemeral exit node.
 
-Lambda functions are limited to run for 15 minutes at a time, so this is not a good solution for a long-running VPN connection. However, it is a good solution for a short-lived VPN connection, such as a VPN connection that is only needed for a few minutes of access or less.
+Lambda functions are limited to run for 15 minutes at a time, so this is not a good solution for a long-running VPN connection. However, it is useful if you only want a an exit-node for a few minutes of access or less.
 
 In the future, it could be improved so that it can be used as a long-running VPN connection, through an orchestration service.
 
@@ -12,8 +12,8 @@ In the future, it could be improved so that it can be used as a long-running VPN
 
 ### Pre-requisites
 
-1. Install the [Serverless Framework](https://www.serverless.com/framework/docs/getting-started/)
-2. Install Tailscale on your local machine and create a Tailscale account.
+1. Install the [Serverless Framework](https://www.serverless.com/framework/docs/getting-started/). In doing this, you will also need to have an AWS account, with credentials set up, etc.
+2. [Install Tailscale](https://tailscale.com/kb/installation/) on your local machine and create a Tailscale account.
 3. Have Docker installed and running.
 
 ### Configure your Tailscale network
@@ -32,6 +32,8 @@ In the future, it could be improved so that it can be used as a long-running VPN
 2. Follow the directions here to create an ephemeral auth key: https://tailscale.com/kb/1085/auth-keys/ You should create a key that is both ephemeral, and reuseable, and you should assign the tag `tag:exit` to it. I suggest a nice long one - say 90 days. You will have to get a new one manually, when it expires.
 3. In the project root, create a file called `config.json` which has the same contents as the `config.example.json` file, but with your ephemeral auth key in it from step 2.
 4. Make any modifications that you would like to the `serverless.yml` file. For example, you may want to change the region that the Lambda function is deployed to.
+
+### Deploy the service
 
 ```
 sls deploy
